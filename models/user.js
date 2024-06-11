@@ -47,6 +47,41 @@ userSchema.statics.register = async function (username, password) {
     }
 };
 
+// Jämför hashade lösenord vid inloggning.
+userSchema.methods.comparePassword = async function (password) {
+    try {
+        return await bcrypt.compare(password, this.password);
+    // Felmeddelande.
+    } catch(error) {
+        throw error;
+    }
+};
+
+// Loggar in en användare.
+userSchema.statics.login = async function (username, password) {
+    try {
+        const user = await this.findOne({ username });
+        
+        // Kontrollerar användarnamn.
+        if(!username) {
+            throw new Error("Felaktigt användarnamn eller lösenord");
+        }
+
+        // Kontrollerar om lösenord matchar.
+        const isPasswordMatch = await user.comparePassword(password);
+        if(!isPasswordMatch) {
+            throw new Error("Felaktigt användarnamn eller lösenord");
+        }
+
+        // Är både användarnamn och lösenord korrekt?
+        return user;
+
+    // Felmeddelande.
+    } catch(error) {
+        throw error;
+    }
+}
+
 // Inkluderar schemat i databasen.
 const User = mongoose.model("User", userSchema);
 // Exporterar koden till authRoutes.js.

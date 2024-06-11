@@ -18,8 +18,12 @@ Den här README-filen har skapats för att förklara momentets syfte, kort redog
 7. I user.js-filen skapades struktur för användaruppgifter med ett schema.
 8. En import av användarmodellen gjordes till authRouter.js-filen och i sektionen som avser registering lades denna till med _new User_.
 9. Funktionalitet för registrering testades i ThunderClient och nya konton kunde ses i databasen via MongoDB Compass.
+10. En funktion som hashar lösenordet för samtliga registrerade användare lades till. Lösenorden kan då inte ses i ren skrift i databasen.
+11. I user.js-filen skapades funktioner för inloggning och kontroll/jämförelse av hashade lösenord. 
+12. I sektionen för inloggning lades det till en ordentlig kontroll av registrerat användarnamn samt kontroll av hashat lösenord. 
+13. I sektionen för inloggning lades en JWT-token till som skapas vid lyckad inloggning.
 
-I koden implementeras delar av **CRUD**; create (POST), read (GET).
+I koden implementeras delar av **CRUD**; create (POST) samt read (GET).
 
 ## Installation och anslutning till databas
 
@@ -41,8 +45,8 @@ Ett användarobjekt returneras/skickas i JSON-format med följande struktur:
 ```
 {
    _id: ObjectId('66684e5b8e6ac19a0afe970e')
-   username: "Jenny"
-   password: "password"
+   username: "JennyLind"
+   password: "$2b$10$eo5cYNQIMxV1WJDnMSNpluH2XswLd0M2.HOXhMbTzdliXEqKvNd7W"
    created: 2024-06-11T13:21:28.361+00:00
 }
 ```

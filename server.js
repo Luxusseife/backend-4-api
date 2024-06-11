@@ -1,4 +1,4 @@
-// Inkluderar Express och Body-Parser.
+// Inkluderar Express.
 const express = require("express");
 
 // Importerar authRoutes.

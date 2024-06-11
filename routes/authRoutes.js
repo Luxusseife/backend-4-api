@@ -1,7 +1,8 @@
-// Routes för auth.
+// Inkluderar routes för auth.
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 // Ansluter till MongoDB-databasen.
@@ -53,11 +54,25 @@ router.post("/login", async (req, res) => {
             return res.status(400).json({ error: "Felaktigt användarnamn eller lösenord..." });
         }
 
-        // Kontrollerar inloggningsuppgifter.
-        if(username === "Jenny" && password === "password") {
-            res.status(200).json({ message: "Lyckad inloggning!" });
+        // Kontrollerar om användaren är registrerad.
+        const user = await User.findOne( { username });
+        if(!user) {
+            return res.status(401).json({ error: "Felaktigt användarnamn eller lösenord"});
+        }
+
+        // Kontrollerar lösenord.
+        const isPasswordMatch = await user.comparePassword(password);
+        if(!isPasswordMatch) {
+            return res.status(401).json({ error: "Felaktigt användarnamn eller lösenord"});
         } else {
-            res.status(401).json({ error: "Felaktigt användarnamn eller lösenord..." });
+            // Skapar JWT-nyckel.
+            const payload = { username: username };
+            const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
+            const response = {
+                message: "Lyckad inloggning",
+                token: token
+            }
+            res.status(200).json({ response });
         }
 
     // Felmeddelande.
