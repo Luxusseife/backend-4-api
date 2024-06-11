@@ -10,7 +10,8 @@ mongoose.set("strictQuery", false);
 mongoose.connect(process.env.DATABASE)
 // Lyckad anslutning.
 .then(() => { 
-    console.log("Ansluten till databasen!");})
+    console.log("Ansluten till databasen!");
+})
 // Fel vid anslutning.
 .catch((error) => {
     console.error("Fel vid anslutning till databasen...");
@@ -55,21 +56,22 @@ router.post("/login", async (req, res) => {
         }
 
         // Kontrollerar om användaren är registrerad.
-        const user = await User.findOne( { username });
+        const user = await User.findOne({ username });
         if(!user) {
-            return res.status(401).json({ error: "Felaktigt användarnamn eller lösenord"});
+            return res.status(401).json({ error: "Felaktigt användarnamn eller lösenord" });
         }
 
         // Kontrollerar lösenord.
         const isPasswordMatch = await user.comparePassword(password);
         if(!isPasswordMatch) {
-            return res.status(401).json({ error: "Felaktigt användarnamn eller lösenord"});
+            return res.status(401).json({ error: "Felaktigt användarnamn eller lösenord" });
         } else {
             // Skapar JWT-nyckel.
             const payload = { username: username };
             const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
             const response = {
                 message: "Lyckad inloggning",
+                user: username,
                 token: token
             }
             res.status(200).json({ response });

@@ -22,6 +22,9 @@ Den här README-filen har skapats för att förklara momentets syfte, kort redog
 11. I user.js-filen skapades funktioner för inloggning och kontroll/jämförelse av hashade lösenord. 
 12. I sektionen för inloggning lades det till en ordentlig kontroll av registrerat användarnamn samt kontroll av hashat lösenord. 
 13. I sektionen för inloggning lades en JWT-token till som skapas vid lyckad inloggning.
+14. Funktionalitet för inloggning testades i ThunderClient vilket gav positivt resultat.
+15. En skyddad route läggs till i server.js-filen och en funktion som körs vid inloggning för att verifiera token och JWT.
+16. Funktionalitet för åtkomst till skyddad route via inloggning testades i ThunderClient vilket gav positivt resultat.
 
 I koden implementeras delar av **CRUD**; create (POST) samt read (GET).
 
