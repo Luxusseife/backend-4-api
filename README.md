@@ -13,7 +13,10 @@ Den här README-filen har skapats för att förklara momentets syfte, kort redog
 2. Nödvändiga dependencies för uppgiften installerades: Express, Dotenv, Router och Mongoose. 
 3. En katalog för routes skapades och häri en authroutes.js-fil. 
 4. I authroutes.js-filen gjordes anslutningen till en lokal MongoDB-databas (via Compass) och routes skapades för att registrera samt logga in en användare, båda med metoden POST. 
-4. Routes för registrering och inloggningen testades i ThunderClient vilket gav positivt resultat.
+5. Routes för registrering och inloggning testades i ThunderClient vilket gav positivt resultat.
+6. En katalog för models skapades och häri en user.js-fil.
+7. I user.js-filen skapades struktur för användaruppgifter med ett schema.
+8. En import av användarmodellen gjordes till authRouter.js-filen och i sektionen som avser registering lades denna till med _new User_.
 
 I koden implementeras delar av **CRUD**; create (POST), read (GET).
 

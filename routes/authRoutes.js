@@ -15,6 +15,9 @@ mongoose.connect(process.env.DATABASE)
     console.error("Fel vid anslutning till databasen...");
 });
 
+// Importerar användarmodellen.
+const User = require("../models/user");
+
 // Skapar/registrerar en ny användare.
 router.post("/register", async (req, res) => {
     try {
@@ -26,7 +29,13 @@ router.post("/register", async (req, res) => {
         }
 
         // Korrekt input? Skapar en användare.
-        res.status(201).json({ message: "Användarkontot är registrerat!" });
+        const user = new User({ username, password });
+        await user.save();
+
+        res.status(201).json({ 
+            message: "Användarkontot är registrerat!",
+            newUser: username 
+        });
 
     // Felmeddelande.
     } catch (error) {
