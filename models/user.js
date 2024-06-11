@@ -1,5 +1,6 @@
-// Inkluderar Mongoose.
+// Inkluderar Mongoose och Bcrypt.
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 // Sätter struktur för användaruppgifter med ett schema.
 const userSchema = new mongoose.Schema({
@@ -19,6 +20,21 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+// Hashar lösenord.
+userSchema.pre("save", async function (next) {
+    try {
+        if(this.isNew || this.isModified("password")) {
+            const hashedPassword = await bcrypt.hash(this.password, 10);
+            this.password = hashedPassword;
+        }
+
+        next();
+    // Felmeddelande.
+    } catch(error) {
+        next(error);
+    }
+});
+
 // Registrerar en användare.
 userSchema.statics.register = async function (username, password) {
     try {
@@ -30,7 +46,6 @@ userSchema.statics.register = async function (username, password) {
         throw error;
     }
 };
-
 
 // Inkluderar schemat i databasen.
 const User = mongoose.model("User", userSchema);
