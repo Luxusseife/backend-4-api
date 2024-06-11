@@ -17,6 +17,7 @@ Den här README-filen har skapats för att förklara momentets syfte, kort redog
 6. En katalog för models skapades och häri en user.js-fil.
 7. I user.js-filen skapades struktur för användaruppgifter med ett schema.
 8. En import av användarmodellen gjordes till authRouter.js-filen och i sektionen som avser registering lades denna till med _new User_.
+9. Funktionalitet för registrering testades i ThunderClient och nya konton kunde ses i databasen via MongoDB Compass.
 
 I koden implementeras delar av **CRUD**; create (POST), read (GET).
 
