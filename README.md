@@ -37,10 +37,13 @@ Här nedan beskrivs användningen av API:et:
 
 ### Output
 
-Ett objekt returneras/skickas i JSON-format med följande struktur:
+Ett användarobjekt returneras/skickas i JSON-format med följande struktur:
 ```
 {
-   ...
+   _id: ObjectId('66684e5b8e6ac19a0afe970e')
+   username: "Jenny"
+   password: "password"
+   created: 2024-06-11T13:21:28.361+00:00
 }
 ```
 
