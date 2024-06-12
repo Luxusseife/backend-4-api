@@ -74,7 +74,7 @@ router.post("/login", async (req, res) => {
                 user: username,
                 token: token
             }
-            res.status(200).json({ response });
+            res.status(200).json({ response, token });
         }
 
     // Felmeddelande.
