@@ -32,10 +32,10 @@ function authenticateToken(req, res, next) {
     if(token == null) res.status(401).json({ message: "Ingen behörighet för privat sida - token saknas" });
 
     // Kontrollerar JWT.
-    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, username) => {
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
         if(err) return res.status(403).json({ message: "Ogiltig JWT" });
 
-        req.username = username;
+        req.user = user;
         next();
     });
 }
