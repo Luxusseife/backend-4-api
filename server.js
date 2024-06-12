@@ -1,5 +1,6 @@
-// Inkluderar Express och jsonwebtoken.
+// Inkluderar Express, Cors och jsonwebtoken.
 const express = require("express");
+const cors = require("cors");
 const jwt = require("jsonwebtoken");
 
 // Importerar authRoutes.
@@ -11,7 +12,8 @@ const app = express();
 // Väljer port.
 const port = process.env.PORT || 3000;
 
-// Middleware. Aktiverar hantering och parsning av JSON-data.
+// Middleware. Aktiverar Cors samt hantering och parsning av JSON-data.
+app.use(cors());
 app.use(express.json());
 
 // Routes, grundläggande sökväg.
