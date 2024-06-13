@@ -30,16 +30,17 @@ router.post("/register", async (req, res) => {
             return res.status(400).json({ error: "Felaktigt användarnamn eller lösenord..." });
         }
 
-        // Korrekt input? Skapar en användare.
+        // Korrekt input? Skapar en ny användar-instans.
         const user = new User({ username, password });
         await user.save();
 
+        // Returnerar lyckat svar i konsollen.
         res.status(201).json({ 
             message: "Användarkontot är registrerat!",
             newUser: username 
         });
 
-    // Felmeddelande.
+    // Felmeddelande vid serverfel.
     } catch (error) {
         res.status(500).json({ error: "Serverfel..." });
     }
@@ -69,15 +70,17 @@ router.post("/login", async (req, res) => {
             // Skapar JWT-nyckel.
             const payload = { username: username };
             const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
+            // Skapar svarsinfo.
             const response = {
                 message: "Lyckad inloggning",
                 user: username,
                 token: token
             }
+            // Skickar svar och token till klienten.
             res.status(200).json({ response, token });
         }
 
-    // Felmeddelande.
+    // Felmeddelande vid serverfel.
     } catch (error) {
         res.status(500).json({ error: "Serverfel..." });
     }

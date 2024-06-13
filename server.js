@@ -26,10 +26,13 @@ app.get("/api/private", authenticateToken, (req, res) => {
 
 // Validerar token för åtkomst till skyddad resurs.
 function authenticateToken(req, res, next) {
+    // Hämtar authorization-header.
     const authHeader = req.headers["authorization"];
+    // Om headern finns, extraheras token från den.
     const token = authHeader && authHeader.split(" ")[1];
 
-    if(token == null) res.status(401).json({ message: "Ingen behörighet för privat sida - token saknas" });
+    // Kontrollerar om en giltig token finns.
+    if(token == null) return res.status(401).json({ message: "Ingen behörighet för privat sida - token saknas" });
 
     // Kontrollerar JWT.
     jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {

@@ -23,14 +23,15 @@ const userSchema = new mongoose.Schema({
 // Hashar lösenord.
 userSchema.pre("save", async function (next) {
     try {
-        if(this.isNew || this.isModified("password")) {
+        if (this.isNew || this.isModified("password")) {
             const hashedPassword = await bcrypt.hash(this.password, 10);
+            // Ersätter det okrypterade lösenordet med det hashade lösenordet.
             this.password = hashedPassword;
         }
-
+        
         next();
     // Felmeddelande.
-    } catch(error) {
+    } catch (error) {
         next(error);
     }
 });
@@ -38,11 +39,13 @@ userSchema.pre("save", async function (next) {
 // Registrerar en användare.
 userSchema.statics.register = async function (username, password) {
     try {
+        // Skapar en ny användarinstans med valda användarnamn och lösenord.
         const user = new this({ username, password });
+        // Sparar instansen i databasen med hashat lösenord.
         await user.save();
         return user;
     // Felmeddelande.
-    } catch(error) {
+    } catch (error) {
         throw error;
     }
 };
@@ -52,7 +55,7 @@ userSchema.methods.comparePassword = async function (password) {
     try {
         return await bcrypt.compare(password, this.password);
     // Felmeddelande.
-    } catch(error) {
+    } catch (error) {
         throw error;
     }
 };
@@ -61,15 +64,15 @@ userSchema.methods.comparePassword = async function (password) {
 userSchema.statics.login = async function (username, password) {
     try {
         const user = await this.findOne({ username });
-        
+
         // Kontrollerar användarnamn.
-        if(!username) {
+        if (!user) {
             throw new Error("Felaktigt användarnamn eller lösenord");
         }
 
         // Kontrollerar om lösenord matchar.
         const isPasswordMatch = await user.comparePassword(password);
-        if(!isPasswordMatch) {
+        if (!isPasswordMatch) {
             throw new Error("Felaktigt användarnamn eller lösenord");
         }
 
@@ -77,7 +80,7 @@ userSchema.statics.login = async function (username, password) {
         return user;
 
     // Felmeddelande.
-    } catch(error) {
+    } catch (error) {
         throw error;
     }
 }
